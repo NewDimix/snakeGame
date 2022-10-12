@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Змейка</title>
+    <link rel="stylesheet" href="css/style.css?v=14">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta id="m360" name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        if (screen.width < 360) {
+            var mvp = document.getElementById('m360');
+            mvp.setAttribute('content', 'width=360, user-scalable=0');
+        };
+
+        window.addEventListener("resize", function () {
+            var mvp = document.getElementById('m360');
+            mvp.setAttribute('content', 'width=device-width, user-scalable=0');
+
+            if (screen.width < 360) {
+                var mvp = document.getElementById('m360');
+                mvp.setAttribute('content', 'width=360, user-scalable=0');
+            }
+        }, false);
+    </script>
+    <link type="image/x-icon" href="favicon.ico" rel="shortcut icon">
+    <link type="Image/x-icon" href="favicon.ico" rel="icon">
+    <meta content='true' name='HandheldFriendly'>
+    <meta content='width' name='MobileOptimized'>
+    <meta content='yes' name='apple-mobile-web-app-capable'>
+    <meta name="description" content="Игра «Змейка». Играйте бесплатно и наберите как можно больше очков!">
+    <meta name="keywords" content="Змейка, snake, игра, game, тетрис, tetris">
+    <!-- <meta name="robots" content="index,follow"> -->
+    <meta name="robots" content="noindex">
+</head>
+
+<body class="">
+    <div class="preloader">
+        <img src="img/preloader.gif" alt="">
+    </div>
+    <header class="header">
+        <div class="header__menu menu">
+            <button type="button" id="reloadBtn" class="menu__button button button_left">
+                <span class="button__text"><span id="reloadBtnText">Старт</span></span>
+                <span class="button__glitch"><span>Старт</span></span>
+                <span class="button__sub">snake</span>
+            </button>
+            <button type="button" id="settingsBtn" class="menu__button button">
+                <span class="button__text"><span id="settingsBtnText">Настройки</span></span>
+                <span class="button__glitch">Настройки</span>
+                <span class="button__sub">snake</span>
+            </button>
+        </div>
+
+        <div class="header__info info">
+            <span id="gameOverTextEl" class="info__overText">Вы проиграли.</span>
+            <span id="wakeUpTextEl" class="info__wakeUpText">Wake the f*** up Samurai</span>
+            <span id="gameWinTextEl" class="info__winText">Вы победили!</span>
+            <div id="scoreEl" class="info__score score">
+                <span>Очки: </span>
+                <span id="score" class="score__count">0</span>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <div id="field" class="field main__field">
+            <div id="timerDark" class="field__timerDark timerDark"></div>
+
+            <div id="cyberBackground" class="cyberBackground"></div>
+            <div id="timer" class="field__timer timer">
+                <div id="timerCount" class="timer__count">3</div>
+            </div>
+            <div id="playingField" class="field__table">
+                <div class="table">
+                    <div class="table__line">
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="table__line">
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="table__line">
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="table__line">
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="table__line">
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="table__line">
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="table__line">
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="table__line">
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="table__line">
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="table__line">
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                        <div class="table__cell">
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="wtf" class="wtf wtf_hidden">
+                <p id="wtf__text" class="wtf__text"></p>
+                <button id="wtf__btn" class="wtf__btn">ОК</button>
+            </div>
+            <input id="cyberpunkRange" class="cyberpunkRange" type="range" min="0" max="100" value="0" step="1">
+            <div id="hack" class="field__hack hack">
+                <span id="hackText" class="hack__text">Взлом протокола_</span>
+                <div class="hack__wrap">
+                    <div class="hack__line"></div>
+                </div>
+            </div>
+            <div id="dark" class="field__dark dark"></div>
+            <div id="touchControl" class="field__touchControl touchControl touchControl_none">
+                <button id="touchBtnTop" class="touchControl__item touchControl__item_top" value="ArrowUp"></button>
+                <button id="touchBtnRight" class="touchControl__item touchControl__item_right"
+                    value="ArrowRight"></button>
+                <button id="touchBtnBottom" class="touchControl__item touchControl__item_bottom"
+                    value="ArrowDown"></button>
+                <button id="touchBtnLeft" class="touchControl__item touchControl__item_left" value="ArrowLeft"></button>
+            </div>
+        </div>
+        <div id="settingsPage" class="settings main__settings">
+            <form id="settingsForm" action="#" onsubmit="submitForm(event)" class="settings__form form">
+                <fieldset class="form__item">
+                    <legend>Размер поля</legend>
+
+                    <input type="radio" name="fieldSize" value="8" id="eight">
+                    <label for="eight">8 x 8</label>
+
+                    <input checked="checked" type="radio" name="fieldSize" value="10" id="ten">
+                    <label for="ten">10 x 10</label>
+
+                    <input type="radio" name="fieldSize" value="14" id="fourteen">
+                    <label for="fourteen">14 x 14</label>
+
+                    <!-- <input type="radio" name="fieldSize" value="30" id="thirty">
+                    <label for="thirty">30 x 30</label> -->
+                </fieldset>
+                <fieldset class="form__item">
+                    <legend>Скорость игры</legend>
+                    <input type="radio" name="speed" value="low" id="low">
+                    <label for="low">Низкая</label>
+
+                    <input checked="checked" type="radio" name="speed" value="medium" id="medium">
+                    <label for="medium">Средняя</label>
+
+                    <input type="radio" name="speed" value="high" id="high">
+                    <label for="high">Высокая</label>
+                </fieldset>
+                <fieldset class="form__item">
+                    <legend>Тема</legend>
+                    <input checked="checked" type="radio" name="theme" value="tetris" id="tetris">
+                    <label for="tetris">Tetris</label>
+
+                    <input type="radio" name="theme" value="cyberpunk" id="cyberpunk">
+                    <label for="cyberpunk">Cyberpunk</label>
+                </fieldset>
+
+                <button id="settingsSave" class="button">
+                    <span class="button__text"><span id="settingsSaveBtnText">Сохранить</span></span>
+                    <span class="button__glitch">Сохранить</span>
+                    <span class="button__sub">snake</span>
+                </button>
+            </form>
+
+            <div class="ndmx">by NDMX</div>
+        </div>
+    </main>
+</body>
+<script src="js/script.js?v=14"></script>
+
+</html>
